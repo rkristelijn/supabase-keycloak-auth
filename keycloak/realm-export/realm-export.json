@@ -1,0 +1,42 @@
+{
+  "realm": "supabase",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "supabase",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "myclientsecret",
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "*"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "user",
+      "email": "test@test.nl",
+      "firstName": "Ali",
+      "lastName": "Osram",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "pass",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ],
+      "clientRoles": {
+        "account": [
+          "view-profile",
+          "manage-account"
+        ]
+      }
+    }
+  ]
+}

@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS Supabase Keycloak example
 
-## Getting Started
+This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/)
 
-First, run the development server:
+## Run locally
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Prerequisites: Node 20.3.1, Docker
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. `npm i` - install dependencies
+2. `npm run init` - to generate the .env file, make sure to put your supabase stuff
+4. `npm run start:keycloak` - start local keycloak with pre set up realm and users
+3. `npm start` - start the app locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Resources used
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. `npx create-next-app@latest` from https://nextjs.org/docs/pages/api-reference/create-next-app
+2. set up supabase from https://supabase.com/docs/guides/auth/social-login/auth-keycloak
 
-## Learn More
+## More info
 
-To learn more about Next.js, take a look at the following resources:
+See [docs/README.md](./docs/README.md)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+for:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Set up Keycloak](./docs/README.md#set-up-keycloak)
+- [Set up Supabase](./docs/README.md#set-up-supabase)

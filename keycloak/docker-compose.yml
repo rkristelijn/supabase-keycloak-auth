@@ -1,0 +1,19 @@
+version: '3.8'
+
+# https://www.keycloak.org/server/containers
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: dev-mem
+      KC_HOSTNAME: localhost
+      # https://www.keycloak.org/server/logging#:~:text=to%20configure%20logging.-,Log%20levels,-The%20following%20table
+      KC_LOG_LEVEL: INFO
+    volumes:
+      - ./realm-export:/opt/keycloak/data/import
+    command: start-dev --import-realm
+    ports:
+      - '8080:8080'
