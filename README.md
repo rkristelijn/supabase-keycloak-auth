@@ -1,6 +1,6 @@
 # NextJS Supabase Keycloak example
 
-This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/)
+This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/issue-description.md)
 
 ## Run locally
 
