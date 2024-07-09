@@ -27,7 +27,7 @@ just run:
 
 ### Set up the provider
 
-1. go to https://supabase.com/dashboard/project/<projectid>/auth/providers
+1. go to https://supabase.com/dashboard/project/project/auth/providers (replace project with your projectid)
   - enable Keycloak
   - client ID: `supabase`
   - Secret: `myclientsecret`
