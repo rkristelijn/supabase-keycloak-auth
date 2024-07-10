@@ -8,9 +8,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "myclientsecret",
       "directAccessGrantsEnabled": true,
-      "redirectUris": [
-        "*"
-      ]
+      "redirectUris": ["*"]
     }
   ],
   "users": [
@@ -28,14 +26,9 @@
           "temporary": false
         }
       ],
-      "realmRoles": [
-        "user"
-      ],
+      "realmRoles": ["user"],
       "clientRoles": {
-        "account": [
-          "view-profile",
-          "manage-account"
-        ]
+        "account": ["view-profile", "manage-account"]
       }
     }
   ]

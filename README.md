@@ -1,6 +1,8 @@
 # NextJS Supabase Keycloak example
 
-This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/issue-description.md)
+This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/issue-description.md). This repo has a docker-compose file for keycloak set up correctly, assumes you can create a project in Supabase and runs a local NextJS app to login. 
+
+![Architecture](./docs/architecture.png)
 
 ## Run locally
 
@@ -8,8 +10,8 @@ Prerequisites: Node 20.3.1, Docker
 
 1. `npm i` - install dependencies
 2. `npm run init` - to generate the .env file, make sure to put your supabase stuff
-4. `npm run start:keycloak` - start local keycloak with pre set up realm and users
-3. `npm start` - start the app locally
+3. `npm run start:keycloak` - start local keycloak with pre set up realm and users
+4. `npm start` - start the app locally
 
 ## Resources used
 

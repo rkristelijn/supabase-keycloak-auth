@@ -14,27 +14,30 @@ just run:
 1. navigate to http://localhost:8080/
 2. log in with `admin`/`admin`
 3. find preconfigured:
-  - realm: `Supabase`
-  - client: `supabase`
-  - user: `user`/`pass`
+
+- realm: `Supabase`
+- client: `supabase`
+- user: `user`/`pass`
 
 ## Set up Supabase
 
 ### Set up a new project
 
 1. go to https://supabase.com/dashboard/project and set up a new project
-2. grab the `anon key` and `url` from the project API and set them in `.env.local`
+2. grab the `anon key` and `url` from the project API and set them in `.env.local` while the project is creating
 
 ### Set up the provider
 
 1. go to https://supabase.com/dashboard/project/project/auth/providers (replace project with your projectid)
-  - enable Keycloak
-  - client ID: `supabase`
-  - Secret: `myclientsecret`
-  - Realm URL: `http://localhost:8080/realms/supabase` (this you can find in the realm in Keycloak, click the link 'OpenID Endpoint Configuration' at the bottom of the page, see 'issuer')
+
+- enable Keycloak
+- client ID: `supabase`
+- Secret: `myclientsecret`
+- Realm URL: `http://localhost:8080/realms/supabase` (this you can find in the realm in Keycloak, click the link 'OpenID Endpoint Configuration' at the bottom of the page, see 'issuer')
 
 ### Add Redirect URLs
 
 1. go to https://supabase.com/dashboard/project/pdmjhuibertsbigbrgns/auth/url-configuration
-  - Site URL: `http://localhost:3000`
-  - Redirect URLs: `http://localhost:3000/callback/**` < unsure if ** need to be added
+
+- Site URL: `http://localhost:3000`
+- Redirect URLs: `http://localhost:3000/callback`
