@@ -1,11 +1,9 @@
 'use client';
 import Cookies from '@/components/cookies';
-import { Login } from '@/components/login';
-import { SupabaseProvider } from '@/utils/supabase-provider';
+import { Login } from '@/app/login/pages';
 
 export default function Home() {
   return (
-    <SupabaseProvider>
       <main style={{ display: 'flex', height: '100vh' }}>
         <div style={{ flex: 1 }}>
           <Login />
@@ -14,6 +12,5 @@ export default function Home() {
           <Cookies />
         </div>
       </main>
-    </SupabaseProvider>
   );
 }
