@@ -7,11 +7,13 @@ export async function GET(request: Request) {
   const code = searchParams.get('code')
   // if "next" is in param, use it as the redirect URL
   const next = searchParams.get('next') ?? '/'
+  // asuming this is the jwt
+  const state = searchParams.get('state')
 
   console.log('callback/route.ts', { code, next, searchParams, origin })
 
   if (code != null) {
-    console.log('callback/route.ts', 'code found in query params')
+    console.log('callback/route.ts', 'code found in query params', {code})
     const cookieStore = cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -33,12 +35,21 @@ export async function GET(request: Request) {
         },
       },
     )
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+
+    console.log('callback/route.ts', 'Exchanging code for session...')
+    const { error, data } = await supabase.auth.exchangeCodeForSession(code)
+
+
+    console.log('callback/route.ts', {error, data})
+
     if (error == null) {
-      console.log('Redirecting to main page')
-      console.log(next)
+      console.log('callback/route.ts', 'Redirecting to main page')
+      console.log('callback/route.ts', next)
       return NextResponse.redirect(`${origin}${next}`)
     } else {
+      console.error('callback/route.ts', error.message)
+      console.log('callback/route.ts', origin)
+
       return NextResponse.redirect(`${origin}/error`)
     }
   } else {
