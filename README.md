@@ -8,8 +8,8 @@ Prerequisites: Node 20.3.1, Docker
 
 1. `npm i` - install dependencies
 2. `npm run init` - to generate the .env file, make sure to put your supabase stuff
-4. `npm run start:keycloak` - start local keycloak with pre set up realm and users
-3. `npm start` - start the app locally
+3. `npm run start:keycloak` - start local keycloak with pre set up realm and users
+4. `npm start` - start the app locally
 
 ## Resources used
 
