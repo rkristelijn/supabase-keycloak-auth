@@ -1,14 +1,27 @@
 'use client'
 import { useState } from 'react'
-import { getUser, goHome, login, logout } from './actions'
+import { User } from '@supabase/supabase-js'
+import { getStuff, getUser, goHome, login, logout } from './actions'
 
 export const Login = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState<User | null>(null)
+  const [stuff, setStuff] = useState<any[] | null>(null)
+
+  const handleGetUser = async () => {
+    const user = await getUser();
+    console.log('pages.tsx', 'user', { user }) 
+     setUser(user)
+  }
+
+  const handleGetStuff = async () => {
+    const stuff = await getStuff()
+    console.log('pages.tsx', 'stuff', { stuff })
+    setStuff(stuff)
+  }
 
   return (
     <div>
       <div>Current User:</div>
-      <pre>{JSON.stringify(user)}</pre>
       <div
         className="button-container"
         style={{ display: 'flex', gap: '10px', justifyContent: 'center', minWidth: '300px' }}
@@ -29,19 +42,29 @@ export const Login = () => {
         </button>
         <button
           onClick={() => {
-            setUser(getUser())
+            handleGetUser()
           }}
         >
           Get User
         </button>
         <button
           onClick={() => {
-            goHome()
+            handleGetStuff()
           }}
         >
-          Home
+          Get Stuff
+        </button>
+        <button
+          onClick={() => {
+            window.location.href = '/'
+            // goHome()
+          }}
+        >
+          Home/Refresh
         </button>
       </div>
+      <pre style={{ maxWidth: '500px' }}>{JSON.stringify(user, null, 2)}</pre>
+      <pre style={{ maxWidth: '500px' }}>{JSON.stringify(stuff, null, 2)}</pre>
     </div>
   )
 }

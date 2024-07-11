@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 
 export default function Cookies() {
+  console.log('cookies.tsx', 'Rendering...')
   const [cookies, setCookies] = useState<string[]>([])
   const cookiesRef = useRef<string[]>([]) // Ref to store the previous cookies
 
