@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 
 export default function Cookies() {
+  console.log('cookies.tsx', 'Rendering...')
   const [cookies, setCookies] = useState<string[]>([])
   const cookiesRef = useRef<string[]>([]) // Ref to store the previous cookies
 
@@ -10,14 +11,14 @@ export default function Cookies() {
       .split(';')
       .map((cookie) => cookie.trim())
       .filter((cookie) => cookie !== '')
-    console.log('Cookies', { cookies })
+    console.log('cookies.tsx', { cookies })
     return cookies
   }
 
   useEffect(() => {
     setCookies(getCookiesArray())
 
-    console.log('Checking for cookie changes...')
+    console.log('cookies.tsx', 'Checking for cookie changes...')
     const currentCookies = getCookiesArray()
     // Check if the cookies have changed by comparing with the ref
     if (

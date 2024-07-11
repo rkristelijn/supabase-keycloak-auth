@@ -1,6 +1,8 @@
 # NextJS Supabase Keycloak example
 
-This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. The issue description can be found in [docs/issue-description.md](./docs/issue-description.md). This repo has a docker-compose file for keycloak set up correctly, assumes you can create a project in Supabase and runs a local NextJS app to login. 
+This is an example project to provide information to get NextJS/Keycloak/Supabase authentication to work. This repo has a docker-compose file for keycloak set up correctly, assumes you can create a project in Supabase and runs a local NextJS app to login. 
+
+This example needs supabase cloud and keycloak in the cloud, because Supabase and Keycloak exchange a token. Supabase can't call localhost:8080 on your machine. Alternatively you could spin up a local Supabase and use docker network to let them talk to each other.
 
 ![Architecture](./docs/architecture.png)
 
