@@ -1,40 +1,44 @@
 'use server'
 
-import { redirect } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { SignOut } from '@supabase/supabase-js'
-import { SupabaseSingletonClient } from '@/utils/supabase/singleton.server'
+import { SupabaseFactory } from '@/utils/supabase/singleton.server'
 
 export const login = async () => {
   console.log('actions.ts', 'Creating  a client for logging in...')
-  const supabase = SupabaseSingletonClient.getInstance()
+  const [supabase] = SupabaseFactory.getInstance()
 
-  const { error, data } = await supabase.auth.signInWithOAuth({
-    provider: 'keycloak',
-    options: {
-      scopes: 'openid',
-      redirectTo: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL}`,
-    },
-  })
+  const session: { expires_at: number } = (await supabase.auth.getSession()).data.session;
+  if(!session || session.expires_at <= new Date().getTime()){
+    const { error, data } = await supabase.auth.signInWithOAuth({
+      provider: 'keycloak',
+      options: {
+        scopes: 'openid',
+        redirectTo: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL}`,
+      },
+    })
+    SupabaseFactory.destroyInstance();
 
-  console.log('actions.ts', { error, data })
+    console.log('actions.ts', { error, data })
 
-  if (error) {
-    console.error('action.ts', 'error', error)
-  }
-
-  if (data.url) {
-    redirect(data.url)
+    if (error) {
+      console.error('action.ts', 'error', error)
+    }
+  
+    if (data.url) {
+      redirect(data.url)
+    }
   }
 }
 
 export const logout = async () => {
   console.log('actions.ts', 'Creating a client for logging out...')
-  const supabase = SupabaseSingletonClient.getInstance()
+  const [supabase] = SupabaseFactory.getInstance()
 
-  const jwt = await getJwt()
-  console.log('actions.ts', 'signing out', { jwt })
+  // const jwt = await getJwt()
+  console.log('actions.ts', 'signing out')
 
-  const { error } = await supabase.auth.signOut(jwt)
+  const { error } = await supabase.auth.signOut()
 
   if (error) {
     console.error('action.ts', error)
@@ -42,18 +46,18 @@ export const logout = async () => {
   }
 
   // explicitly destroy the client instance
-  SupabaseSingletonClient.destroyInstance();
+  SupabaseFactory.destroyInstance();
 
   // refresh the page to clear the user state
-  redirect('/')
+
+  redirect(`/?${new Date().getTime()}`)
 }
 
 export const getUser = async () => {
   console.log('actions.ts', 'Creating a client for getting user...')
-  const supabase = SupabaseSingletonClient.getInstance()
-  const jwt = await getJwt()
-  console.log('actions.ts', 'getting user', { jwt })
-  const { data, error } = await supabase.auth.getUser(jwt as string)
+  const [supabase] = SupabaseFactory.getInstance()
+  // console.log('actions.ts', 'getting user', { jwt })
+  const { data, error } = await supabase.auth.getUser()
 
   if (error) {
     console.error('action.ts', error)
@@ -71,7 +75,7 @@ export const goHome = () => {
 export const getJwt = async () => {
   console.log('actions.ts', 'Creating a client for getting jwt...')
 
-  const supabase = SupabaseSingletonClient.getInstance()
+  const [supabase] = SupabaseFactory.getInstance()
 
   const jwt = <SignOut>(await supabase.auth.getSession()).data.session?.access_token
 
@@ -80,7 +84,7 @@ export const getJwt = async () => {
 }
 
 export const getStuff = async () => {
-  const supabase = SupabaseSingletonClient.getInstance()
+  const [supabase] = SupabaseFactory.getInstance()
   const { data, error } = await supabase.from('stuff').select('*')
 
   if (error) {
