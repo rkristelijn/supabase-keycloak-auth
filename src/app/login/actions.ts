@@ -1,12 +1,12 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { createClient } from '@/utils/supabase/server'
 import { SignOut } from '@supabase/supabase-js'
+import { SupabaseSingletonClient } from '@/utils/supabase/singleton.server'
 
 export const login = async () => {
   console.log('actions.ts', 'Creating  a client for logging in...')
-  const supabase = createClient()
+  const supabase = SupabaseSingletonClient.getInstance()
 
   const { error, data } = await supabase.auth.signInWithOAuth({
     provider: 'keycloak',
@@ -29,7 +29,7 @@ export const login = async () => {
 
 export const logout = async () => {
   console.log('actions.ts', 'Creating a client for logging out...')
-  const supabase = createClient()
+  const supabase = SupabaseSingletonClient.getInstance()
 
   const jwt = await getJwt()
   console.log('actions.ts', 'signing out', { jwt })
@@ -40,11 +40,17 @@ export const logout = async () => {
     console.error('action.ts', error)
     return
   }
+
+  // explicitly destroy the client instance
+  SupabaseSingletonClient.destroyInstance();
+
+  // refresh the page to clear the user state
+  redirect('/')
 }
 
 export const getUser = async () => {
   console.log('actions.ts', 'Creating a client for getting user...')
-  const supabase = createClient()
+  const supabase = SupabaseSingletonClient.getInstance()
   const jwt = await getJwt()
   console.log('actions.ts', 'getting user', { jwt })
   const { data, error } = await supabase.auth.getUser(jwt as string)
@@ -65,7 +71,7 @@ export const goHome = () => {
 export const getJwt = async () => {
   console.log('actions.ts', 'Creating a client for getting jwt...')
 
-  const supabase = createClient()
+  const supabase = SupabaseSingletonClient.getInstance()
 
   const jwt = <SignOut>(await supabase.auth.getSession()).data.session?.access_token
 
@@ -74,7 +80,7 @@ export const getJwt = async () => {
 }
 
 export const getStuff = async () => {
-  const supabase = createClient()
+  const supabase = SupabaseSingletonClient.getInstance()
   const { data, error } = await supabase.from('stuff').select('*')
 
   if (error) {

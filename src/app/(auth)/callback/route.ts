@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { type CookieOptions, createServerClient } from '@supabase/ssr'
+import { error } from 'console'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
@@ -41,7 +42,18 @@ export async function GET(request: Request) {
   )
 
   console.log('callback/route.ts', 'exchanging code for session...')
-  const { error, data } = await supabase.auth.exchangeCodeForSession(code)
+
+  let error = null
+  let data = null
+  try {
+    const res = await supabase.auth.exchangeCodeForSession(code)
+    error = res.error
+    data = res.data
+  } catch (e) {
+    console.error('callback/route.ts', 'error exchanging code for session', e)
+    error = e
+    data = null
+  }
 
   console.log('callback/route.ts', { error, data })
   if (error == null) {
@@ -49,6 +61,7 @@ export async function GET(request: Request) {
     console.log(next)
     return NextResponse.redirect(`${origin}${next}`)
   } else {
-    return NextResponse.redirect(`${origin}/error`)
+    console.error('callback/route.ts', 'error', error)
+    return NextResponse.redirect(`${origin}`)
   }
 }

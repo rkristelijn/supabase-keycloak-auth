@@ -1,6 +1,10 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+/**
+ * a function to create a client on the server
+ * @deprecated use singleton.server.ts instead
+ */
 export function createClient() {
   console.log('server.ts','creating client...')
   const cookieStore = cookies()
