@@ -6,6 +6,7 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  // todo: this code needs to go to the singleton.server.ts
   console.log('middleware.ts', 'creating another client...')
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

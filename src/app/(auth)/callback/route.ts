@@ -19,6 +19,8 @@ export async function GET(request: Request) {
   }
 
   console.log('callback/route.ts', 'code found in query params')
+
+  // todo: this code needs to go to the singleton.server.ts
   const cookieStore = cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -43,6 +45,7 @@ export async function GET(request: Request) {
 
   console.log('callback/route.ts', 'exchanging code for session...')
 
+  // this is weird that it needs a try catch block to avoid crashing
   let error = null
   let data = null
   try {
