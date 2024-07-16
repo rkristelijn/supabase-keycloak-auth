@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
+import { Session, User } from '@supabase/supabase-js'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
@@ -18,8 +19,6 @@ export async function GET(request: Request) {
   }
 
   console.log('callback/route.ts', 'code found in query params')
-
-  // todo: this code needs to go to the singleton.server.ts
   const cookieStore = cookies()
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -42,28 +41,23 @@ export async function GET(request: Request) {
     }
   )
 
-  console.log('callback/route.ts', 'exchanging code for session...')
-
-  // this is weird that it needs a try catch block to avoid crashing
+  // todo: is this needed:
   let error = null
-  let data = null
+  let data: { user: User; session: Session } | { user: null; session: null } = { user: null, session: null }
   try {
     const res = await supabase.auth.exchangeCodeForSession(code)
     error = res.error
     data = res.data
   } catch (e) {
-    console.error('callback/route.ts', 'error exchanging code for session', e)
     error = e
-    data = null
   }
-
+  
   console.log('callback/route.ts', { error, data })
   if (error == null) {
     console.log('Redirecting to main page')
     console.log(next)
     return NextResponse.redirect(`${origin}${next}`)
   } else {
-    console.error('callback/route.ts', 'error', error)
-    return NextResponse.redirect(`${origin}`)
+    return NextResponse.redirect(`${origin}/error`)
   }
 }
